@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import HomeService from "../../../Services/HomeService";
+import HttpClientXml from "../../../utils/HttpClientXml";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://43.205.231.210:8157/api/v1/admin/";
 
@@ -10,33 +14,41 @@ const ManageLocality = () => {
     // Fetch cities 
     const fetchCities = async () => {
         try {
-            const response = await fetch(`${BASE_URL}getCities`);
-            const data = await response.json();
+            const response = await HomeService.getCities(); 
+            console.log("Cities API Response:", response);
     
-            console.log("Cities API Response:", data); 
-            
-            if (!response.ok) throw new Error(`Failed to fetch cities: ${data.message}`);
-            
-            setCities(data?.data || []);
+            if (response?.data && Array.isArray(response.data)) {
+                setCities(response.data);
+            } else {
+                console.error("Invalid city data format:", response);
+                setCities([]);
+            }
         } catch (error) {
             console.error("Error fetching cities:", error);
         }
     };
     
     
+    
+    
 
     // Fetch localities based on selected city
     const fetchLocalities = async (cityId) => {
         try {
-            const response = await fetch(`${BASE_URL}getLocalities/${cityId}`);
-            if (!response.ok) throw new Error("Failed to fetch localities");
-
-            const data = await response.json();
-            setLocalities(data?.data || []);
+            const response = await HomeService.getLocalities(cityId); // ✅ Use HomeService
+            console.log("Localities API Response:", response);
+    
+            if (response?.data && Array.isArray(response.data)) {
+                setLocalities(response.data);
+            } else {
+                console.error("Invalid locality data format:", response);
+                setLocalities([]);
+            }
         } catch (error) {
             console.error("Error fetching localities:", error);
         }
     };
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -82,3 +94,14 @@ const ManageLocality = () => {
 };
 
 export default ManageLocality;
+
+
+
+
+
+
+
+
+
+
+

@@ -29,13 +29,11 @@ const ManageLocality = () => {
     };
     
     
-    
-    
 
     // Fetch localities based on selected city
     const fetchLocalities = async (cityId) => {
         try {
-            const response = await HomeService.getLocalities(cityId); // ✅ Use HomeService
+            const response = await HomeService.getLocalities(cityId); 
             console.log("Localities API Response:", response);
     
             if (response?.data && Array.isArray(response.data)) {

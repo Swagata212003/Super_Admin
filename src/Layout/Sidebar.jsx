@@ -125,6 +125,47 @@ function Sidebar({ HideSidebar }) {
             </li>
 
 
+            {/* City Locality */}
+            <li className="menuline">
+              <div className="menu-head" id="sidemenuhead2">
+                <Link
+                  to="#"
+                  className="btn btn-header-link"
+                  data-toggle="collapse"
+                  data-target="#sidemenu2"
+                  aria-expanded="true"
+                  aria-controls="sidemenu2"
+                >
+
+                  <i class="fa-solid fa-city"></i>
+                  <span>City Locality</span>
+                </Link>
+              </div>
+              <div
+                id="sidemenu2"
+                className="collapse"
+                aria-labelledby="sidemenuhead2"
+                data-parent="#sidemenu"
+              >
+                <ul className="Submenu">
+                  <li>
+                    <NavLink to="/manage-locality" onClick={handlClick}>
+                      <i className="fa-solid fa-angles-right mr-2"></i>
+                       Manage Locality
+                    </NavLink>
+                  </li>
+                  {/* <li>
+                    <NavLink to="/manage-cities" onClick={handlClick}>
+                      <i className="fa-solid fa-angles-right mr-2"></i>Manage
+                      City
+                    </NavLink>
+                  </li> */}
+                </ul>
+              </div>
+            </li>
+
+
+
 
            
 

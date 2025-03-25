@@ -90,6 +90,7 @@ import Privateroute from "./PrivateRoute/Privateroute";
 import AddSalesPipeline from "./View/Pages/SalesPipeline/AddSalesPipeline.jsx";
 import ManageSalesPipeline from "./View/Pages/SalesPipeline/ManageSalesPipeline.jsx";
 import AddCity from "./View/Pages/Cities/AddCity.jsx"; 
+import ManageLocality from "./View/Pages/Locality/ManageLocality.jsx";
 
 
 const App = () => {
@@ -107,6 +108,9 @@ const App = () => {
 
               {/* Cities Management */}
               <Route path="/add-city" element={<AddCity />} />  
+              
+              {/*Locality Management */}
+              <Route path="/manage-locality" element={<ManageLocality />} />
               
             </Route>
           </Route>

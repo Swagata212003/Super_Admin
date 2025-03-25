@@ -89,26 +89,41 @@ const AddSalesPipeline = () => {
     //     }
     // }
 
+    // const fetchCities = async () => {
+    //     try {
+    //         // Fetch from API
+    //         const res = await HomeService.getCities();
+    //         const apiCities = res?.data || [];
+    
+    //         // Fetch from localStorage
+    //         const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
+    
+    //         // Merge both sources
+    //         const combinedCities = [...apiCities, ...storedCities];
+    
+    //         setCities(combinedCities);
+    //     } catch (error) {
+    //         console.error("Error fetching cities:", error);
+    //     }
+    // };
+    
+
     const fetchCities = async () => {
         try {
-            // Fetch from API
             const res = await HomeService.getCities();
             const apiCities = res?.data || [];
-    
-            // Fetch from localStorage
             const storedCities = JSON.parse(localStorage.getItem("cities")) || [];
     
-            // Merge both sources
-            const combinedCities = [...apiCities, ...storedCities];
-    
+            // Ensure uniqueness by using a Map (prevents duplicate IDs)
+            const combinedCities = [
+                ...new Map([...apiCities, ...storedCities].map(city => [city.id || city._id, city])).values()
+            ];
+            
             setCities(combinedCities);
         } catch (error) {
             console.error("Error fetching cities:", error);
         }
-    };
-    
-
-  
+    }; 
     
 
     // Fetch Designations
@@ -334,5 +349,163 @@ export default AddSalesPipeline;
 
 
 
+// import React, { useState, useEffect } from "react";
+// import toast from "react-hot-toast";
+// import HomeService from "../../../Services/HomeService";
+// import HttpClientXml from "../../../utils/HttpClientXml";
+// import { useNavigate } from "react-router-dom";
 
+// const AddSalesPipeline = () => {
+//     const [cities, setCities] = useState([]);
+//     const [localities, setLocalities] = useState([]); // New state for localities
+//     const [selectedCity, setSelectedCity] = useState("");
+    
+//     const initialFormData = {
+//         city: "",
+//         locality: "",
+//         name: "",
+//         companyName: "",
+//         email: "",
+//         contact: "",
+//         address: "",
+//         leadType: "",
+//     };
+    
+//     const [formData, setFormData] = useState(initialFormData);
+//     const navigate = useNavigate();
+
+//     // Fetch cities
+//     const fetchCities = async () => {
+//         try {
+//             const response = await fetch("http://localhost:5000/api/cities");
+    
+//             if (!response.ok) {
+//                 throw new Error(`HTTP error! Status: ${response.status}`);
+//             }
+    
+//             const data = await response.json();
+//             console.log("API Response:", data);
+//         } catch (err) {
+//             console.error("Error fetching data:", err);
+//         }
+//     };
+    
+
+//     // Fetch localities based on selected city
+//     const fetchLocalities = async (cityId) => {
+//         try {
+//             const res = await HomeService.getLocalities(cityId); // API call
+//             if (res?.data) {
+//                 setLocalities(res.data);
+//             } else {
+//                 setLocalities([]); // Clear if no localities found
+//             }
+//         } catch (error) {
+//             console.error("Error fetching localities:", error);
+//         }
+//     };
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData({ ...formData, [name]: value });
+
+//         // If city is selected, fetch its localities
+//         if (name === "city") {
+//             setSelectedCity(value);
+//             fetchLocalities(value);
+//         }
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         try {
+//             const res = await HomeService.addSalesPipeline(formData);
+//             if (res?.status) {
+//                 toast.success("Client added successfully!");
+//                 setFormData(initialFormData);
+//                 navigate("/manage-sales-pipeline");
+//             }
+//         } catch (error) {
+//             toast.error("Failed to add client.");
+//             console.error("Error:", error);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchCities();
+//     }, []);
+
+//     return (
+//         <div className="main_wrap" style={{ marginTop: "6rem" }}>
+//             <div className="container-fluid">
+//                 <h2 className="text-center" style={{ fontSize: "30px", color: "#868e96", fontWeight: "bold" }}>
+//                     Add Lead
+//                 </h2>
+
+//                 <form onSubmit={handleSubmit}>
+//                     <div className="row">
+                        
+//                         {/* City Dropdown */}
+//                         <div className="col-md-6 mt-3">
+//                             <label>City<span className="text-danger">*</span></label>
+//                             <select className="form-control" name="city" value={formData.city} onChange={handleChange} required>
+//                                 <option value="">---Select---</option>
+//                                 {cities.map((city) => (
+//                                     <option key={city._id} value={city._id}>
+//                                         {city.name}
+//                                     </option>
+//                                 ))}
+//                             </select>
+//                         </div>
+
+//                         {/* Locality Dropdown (Changes Based on City) */}
+//                         <div className="col-md-6 mt-3">
+//                             <label>Locality</label>
+//                             <select className="form-control" name="locality" value={formData.locality} onChange={handleChange}>
+//                                 <option value="">---Select---</option>
+//                                 {localities.map((loc) => (
+//                                     <option key={loc._id} value={loc._id}>
+//                                         {loc.name}
+//                                     </option>
+//                                 ))}
+//                             </select>
+//                         </div>
+
+//                         {/* Other Fields */}
+//                         <div className="col-md-6 mt-3">
+//                             <label>Name<span className="text-danger">*</span></label>
+//                             <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
+//                         </div>
+
+//                         <div className="col-md-6 mt-3">
+//                             <label>Company Name<span className="text-danger">*</span></label>
+//                             <input type="text" className="form-control" name="companyName" value={formData.companyName} onChange={handleChange} required />
+//                         </div>
+
+//                         <div className="col-md-6 mt-3">
+//                             <label>Email<span className="text-danger">*</span></label>
+//                             <input type="email" className="form-control" name="email" value={formData.email} onChange={handleChange} required />
+//                         </div>
+
+//                         <div className="col-md-6 mt-3">
+//                             <label>Contact<span className="text-danger">*</span></label>
+//                             <input type="text" className="form-control" name="contact" value={formData.contact} onChange={handleChange} required />
+//                         </div>
+
+//                         <div className="col-md-12 mt-3">
+//                             <label>Address</label>
+//                             <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} />
+//                         </div>
+//                     </div>
+
+//                     <button style={{ background: 'rgb(133, 218, 79)', borderRadius: '13px' }} type="submit" className="btn mt-3">
+//                         Submit
+//                     </button>
+//                 </form>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default AddSalesPipeline;
 

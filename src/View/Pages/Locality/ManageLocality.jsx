@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import DataTable from "react-data-table-component";
@@ -141,7 +140,7 @@ const ManageLocality = () => {
                 </div>
                 <button type="button" className="btn btn-primary mt-3" onClick={handleAddApartment}>Add Apartment</button>
             </form>
-            <DataTable title="Added Apartments" columns={columns} data={apartments} pagination />
+            <DataTable title="Apartments" columns={columns} data={apartments} pagination />
             {editData && (
                 <div className="modal show d-block" tabIndex="-1">
                     <div className="modal-dialog">
@@ -165,16 +164,6 @@ const ManageLocality = () => {
     );
 };
 export default ManageLocality;
-
-
-
-
-
-
-
-
-
-
 
 
 

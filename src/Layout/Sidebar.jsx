@@ -125,7 +125,7 @@ function Sidebar({ HideSidebar }) {
             </li>
 
 
-            {/* City Locality */}
+            {/* Apartment */}
             <li className="menuline">
               <div className="menu-head" id="sidemenuhead2">
                 <Link
@@ -138,7 +138,7 @@ function Sidebar({ HideSidebar }) {
                 >
 
                   <i class="fa-solid fa-city"></i>
-                  <span>City Locality</span>
+                  <span>Apartment</span>
                 </Link>
               </div>
               <div
@@ -151,7 +151,7 @@ function Sidebar({ HideSidebar }) {
                   <li>
                     <NavLink to="/manage-locality" onClick={handlClick}>
                       <i className="fa-solid fa-angles-right mr-2"></i>
-                       Manage Locality
+                       Manage Apartment
                     </NavLink>
                   </li>
                   {/* <li>

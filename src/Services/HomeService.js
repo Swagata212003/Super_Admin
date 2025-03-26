@@ -1,6 +1,25 @@
 
 import HttpClientXml from "../utils/HttpClientXml";
 
+
+const getApartments = async () => {
+  let endPoint = "apartment";
+  return HttpClientXml.get(endPoint);
+};
+
+const addApartment = async (data) => {
+  let endPoint = "apartment";
+  return HttpClientXml.post(endPoint, data);
+};
+
+const updateApartment = async (id, data) => {
+  let endPoint = `apartment/${id}`;
+  return HttpClientXml.put(endPoint, data);
+};
+
+export { getApartments, addApartment, updateApartment };
+
+
 const getLoginProfile = async () => {
   let endPoint = "get-profile";
   return HttpClientXml.get(endPoint);
@@ -88,6 +107,9 @@ export default {
   getVillages,
   addVillage,
   uploadImage,
+  getApartments, 
+  addApartment,
+   updateApartment 
 };
 
 

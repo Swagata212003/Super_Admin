@@ -17,7 +17,7 @@ const updateApartment = async (id, data) => {
   return HttpClientXml.put(endPoint, data);
 };
 
-export { getApartments, addApartment, updateApartment };
+
 
 
 const getLoginProfile = async () => {

@@ -1,4 +1,104 @@
 
+import HttpClientXml from "../utils/HttpClientXml";
+
+const getLoginProfile = async () => {
+  let endPoint = "get-profile";
+  return HttpClientXml.get(endPoint);
+};
+
+const getCities = async () => {
+  let endPoint = "city";
+  return HttpClientXml.get(endPoint);
+};
+
+
+const getLocalities = async (cityId) => {
+  let endPoint = `locality?cityId=${cityId}`;
+  return HttpClientXml.get(endPoint);
+};
+
+const addLocality = async (data) => {
+  let endPoint = "locality";
+  return HttpClientXml.post(endPoint, data);
+};
+
+const updateLocality = async (id, data) => {
+  let endPoint = `locality/${id}`;
+  return HttpClientXml.put(endPoint, data);
+};
+
+
+const deleteLocality = async (id) => {
+  let endPoint = `localities/${id}`;
+  return HttpClientXml.deletemethod(endPoint);
+};
+
+// Fetch Sales Pipeline
+const getSalesPipeline = async () => {
+  let endPoint = "leads";
+  return HttpClientXml.get(endPoint);
+};
+
+const addSalesPipeline = async (data) => {
+  let endPoint = "leads";
+  return HttpClientXml.post(endPoint, data);
+};
+
+const updatSalesPipeline = async (id, data) => {
+  let endPoint = `leads/${id}`;
+  return HttpClientXml.put(endPoint, data);
+};
+
+const deleteSalesPipeline = async (id, data) => {
+  let endPoint = `leads/${id}`;
+  return HttpClientXml.deletemethod(endPoint, data);
+};
+
+// Fetch Villages
+const getVillages = async () => {
+  let endPoint = "villages";
+  return HttpClientXml.get(endPoint);
+};
+
+// Add Village
+const addVillage = async (data) => {
+  let endPoint = "villages";
+  return HttpClientXml.post(endPoint, data);
+};
+
+
+const uploadImage = async (file) => {
+  let endPoint = "image-upload";
+  let data = new FormData();
+  data.append("image", file);
+  return HttpClientXml.fileUplode(endPoint, "POST", data);
+};
+
+export default {
+  getLoginProfile,
+  getCities,
+  getLocalities, 
+  addLocality, 
+  updateLocality,
+  deleteLocality, 
+  getSalesPipeline,
+  addSalesPipeline,
+  updatSalesPipeline,
+  deleteSalesPipeline,
+  getVillages,
+  addVillage,
+  uploadImage,
+};
+
+
+
+
+
+
+
+
+
+
 
 
 // import HttpClientXml from "../utils/HttpClientXml";
@@ -160,96 +260,3 @@
 
 
 
-
-import HttpClientXml from "../utils/HttpClientXml";
-
-const getLoginProfile = async () => {
-  let endPoint = "get-profile";
-  return HttpClientXml.get(endPoint);
-};
-
-const getCities = async () => {
-  let endPoint = "city";
-  return HttpClientXml.get(endPoint);
-};
-
-// ✅ Fetch localities for a given city
-const getLocalities = async (cityId) => {
-  let endPoint = `localities?cityId=${cityId}`;
-  return HttpClientXml.get(endPoint);
-};
-
-// ✅ Add a new locality
-const addLocality = async (data) => {
-  let endPoint = "localities";
-  return HttpClientXml.post(endPoint, data);
-};
-
-// ✅ Update a locality
-const updateLocality = async (id, data) => {
-  let endPoint = `localities/${id}`;
-  return HttpClientXml.put(endPoint, data);
-};
-
-// ✅ Delete a locality
-const deleteLocality = async (id) => {
-  let endPoint = `localities/${id}`;
-  return HttpClientXml.deletemethod(endPoint);
-};
-
-// Fetch Sales Pipeline
-const getSalesPipeline = async () => {
-  let endPoint = "leads";
-  return HttpClientXml.get(endPoint);
-};
-
-const addSalesPipeline = async (data) => {
-  let endPoint = "leads";
-  return HttpClientXml.post(endPoint, data);
-};
-
-const updatSalesPipeline = async (id, data) => {
-  let endPoint = `leads/${id}`;
-  return HttpClientXml.put(endPoint, data);
-};
-
-const deleteSalesPipeline = async (id, data) => {
-  let endPoint = `leads/${id}`;
-  return HttpClientXml.deletemethod(endPoint, data);
-};
-
-// Fetch Villages
-const getVillages = async () => {
-  let endPoint = "villages";
-  return HttpClientXml.get(endPoint);
-};
-
-// Add Village
-const addVillage = async (data) => {
-  let endPoint = "villages";
-  return HttpClientXml.post(endPoint, data);
-};
-
-// Upload Image (if needed separately)
-const uploadImage = async (file) => {
-  let endPoint = "image-upload";
-  let data = new FormData();
-  data.append("image", file);
-  return HttpClientXml.fileUplode(endPoint, "POST", data);
-};
-
-export default {
-  getLoginProfile,
-  getCities,
-  getLocalities, // ✅ New method added
-  addLocality, // ✅ New method added
-  updateLocality, // ✅ New method added
-  deleteLocality, // ✅ New method added
-  getSalesPipeline,
-  addSalesPipeline,
-  updatSalesPipeline,
-  deleteSalesPipeline,
-  getVillages,
-  addVillage,
-  uploadImage,
-};

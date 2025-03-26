@@ -1,22 +1,21 @@
+
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import HomeService from "../../../Services/HomeService";
-import HttpClientXml from "../../../utils/HttpClientXml";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://43.205.231.210:8157/api/v1/admin/";
-
 const ManageLocality = () => {
-    const [cities, setCities] = useState([]);
-    const [localities, setLocalities] = useState([]);
+    const [cities, setCities] = useState([]); 
+    const [localities, setLocalities] = useState([]); 
+    const [filteredLocalities, setFilteredLocalities] = useState([]); 
     const [formData, setFormData] = useState({ city: "", locality: "" });
 
-    // Fetch cities 
+    
     const fetchCities = async () => {
         try {
-            const response = await HomeService.getCities(); 
+            const response = await HomeService.getCities();
             console.log("Cities API Response:", response);
-    
+
             if (response?.data && Array.isArray(response.data)) {
                 setCities(response.data);
             } else {
@@ -25,17 +24,16 @@ const ManageLocality = () => {
             }
         } catch (error) {
             console.error("Error fetching cities:", error);
+            toast.error("Failed to load cities.");
         }
     };
-    
-    
 
-    // Fetch localities based on selected city
-    const fetchLocalities = async (cityId) => {
+ 
+    const fetchLocalities = async () => {
         try {
-            const response = await HomeService.getLocalities(cityId); 
+            const response = await HomeService.getLocalities(); 
             console.log("Localities API Response:", response);
-    
+
             if (response?.data && Array.isArray(response.data)) {
                 setLocalities(response.data);
             } else {
@@ -44,18 +42,26 @@ const ManageLocality = () => {
             }
         } catch (error) {
             console.error("Error fetching localities:", error);
+            toast.error("Failed to load localities.");
         }
     };
-    
 
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-        if (name === "city") fetchLocalities(value);
+        setFormData((prev) => ({ ...prev, [name]: value }));
+
+        if (name === "city") {
+            console.log("Filtering localities for city:", value);
+            const filtered = localities.filter(loc => loc.city._id === value);
+            setFilteredLocalities(filtered);
+        }
     };
+
 
     useEffect(() => {
         fetchCities();
+        fetchLocalities();
     }, []);
 
     return (
@@ -66,8 +72,9 @@ const ManageLocality = () => {
                 </h2>
                 <form>
                     <div className="row">
+                       
                         <div className="col-md-6 mt-3">
-                            <label>City<span className="text-danger">*</span></label>
+                            <label>City <span className="text-danger">*</span></label>
                             <select className="form-control" name="city" value={formData.city} onChange={handleChange} required>
                                 <option value="">---Select---</option>
                                 {cities.map((city) => (
@@ -75,11 +82,13 @@ const ManageLocality = () => {
                                 ))}
                             </select>
                         </div>
+
+                    
                         <div className="col-md-6 mt-3">
                             <label>Locality</label>
                             <select className="form-control" name="locality" value={formData.locality} onChange={handleChange}>
                                 <option value="">---Select---</option>
-                                {localities.map((loc) => (
+                                {filteredLocalities.map((loc) => (
                                     <option key={loc._id} value={loc._id}>{loc.name}</option>
                                 ))}
                             </select>
@@ -92,14 +101,4 @@ const ManageLocality = () => {
 };
 
 export default ManageLocality;
-
-
-
-
-
-
-
-
-
-
 

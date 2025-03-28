@@ -170,3 +170,14 @@ const ManageLocality = () => {
 };
 
 export default ManageLocality;
+
+
+
+
+
+
+
+
+
+
+

@@ -207,6 +207,40 @@ function Sidebar({ HideSidebar }) {
                 </ul>
               </div>
             </li>
+
+
+            {/* Banner */}
+            <li className="menuline">
+        <div className="menu-head" id="sidemenuhead3">
+    <Link
+      to="#"
+      className="btn btn-header-link"
+      data-toggle="collapse"
+      data-target="#sidemenu3"
+      aria-expanded="true"
+      aria-controls="sidemenu3"
+    >
+      <i className="fa-solid fa-image"></i>
+      <span>Banner</span>
+    </Link>
+  </div>
+  <div
+    id="sidemenu3"
+    className="collapse"
+    aria-labelledby="sidemenuhead3"
+    data-parent="#sidemenu"
+  >
+    <ul className="Submenu">
+      <li>
+        <NavLink to="/manage-banner" onClick={handlClick}>
+          <i className="fa-solid fa-angles-right mr-2"></i>
+          Banners
+        </NavLink>
+      </li>
+    </ul>
+  </div>
+</li>
+
           </ul>
 
         </div>

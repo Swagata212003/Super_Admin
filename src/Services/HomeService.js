@@ -2,23 +2,29 @@
 import HttpClientXml from "../utils/HttpClientXml";
 
 
+const getBanners = async () => {
+  return HttpClientXml.get("society-sales");
+};
+
+const addBanner = async (data) => {
+  return HttpClientXml.post("society-sales", data);
+};
+
+const updateBanner = async (id, data) => {
+  return HttpClientXml.put(`society-sales/${id}`, data);
+};
+
 const getApartments = async () => {
-  let endPoint = "apartment";
-  return HttpClientXml.get(endPoint);
+  return HttpClientXml.get("apartment");
 };
 
 const addApartment = async (data) => {
-  let endPoint = "apartment";
-  return HttpClientXml.post(endPoint, data);
+  return HttpClientXml.post("apartment", data);
 };
 
 const updateApartment = async (id, data) => {
-  let endPoint = `apartment/${id}`;
-  return HttpClientXml.put(endPoint, data);
+  return HttpClientXml.put(`apartment/${id}`, data);
 };
-
-
-
 
 const getLoginProfile = async () => {
   let endPoint = "get-profile";
@@ -109,7 +115,10 @@ export default {
   uploadImage,
   getApartments, 
   addApartment,
-   updateApartment 
+  updateApartment,
+  getBanners,
+  addBanner,
+  updateBanner 
 };
 
 

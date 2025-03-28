@@ -10,7 +10,7 @@ const ManageLocality = () => {
     const [filteredLocalities, setFilteredLocalities] = useState([]);
     const [filteredApartments, setFilteredApartments] = useState([]);
     const [formData, setFormData] = useState({ city: "", locality: "", aptName: "" });
-    const [editData, setEditData] = useState(null);
+    const [editId, setEditId] = useState(null);
 
     useEffect(() => {
         fetchCities();
@@ -73,29 +73,44 @@ const ManageLocality = () => {
             await HomeService.addApartment({ ...formData });
             toast.success("Apartment added successfully!");
             fetchApartments();
-            setFormData({ city: formData.city, locality: formData.locality, aptName: "" });
+            setFormData({ city: "", locality: "", aptName: "" });
         } catch (error) {
             toast.error("Failed to add apartment.");
         }
     };
 
     const handleEdit = (apartment) => {
-        setEditData(apartment);
+        setEditId(apartment._id);
+        setFormData({
+            city: apartment.city._id,
+            locality: apartment.locality._id,
+            aptName: apartment.aptName
+        });
+
+        setFilteredLocalities(localities.filter(loc => loc.city._id === apartment.city._id));
+        setFilteredApartments(apartments.filter(apt => apt.locality._id === apartment.locality._id));
     };
 
     const handleUpdateApartment = async () => {
-        if (!editData?.aptName) {
-            toast.error("Apartment name cannot be empty.");
+        if (!formData.city || !formData.locality || !formData.aptName || !editId) {
+            toast.error("Please fill in all fields.");
             return;
         }
+
         try {
-            await HomeService.updateApartment(editData._id, { aptName: editData.aptName });
+            await HomeService.updateApartment(editId, { ...formData });
             toast.success("Apartment updated successfully!");
-            setEditData(null);
             fetchApartments();
+            setEditId(null);
+            setFormData({ city: "", locality: "", aptName: "" });
         } catch (error) {
             toast.error("Failed to update apartment.");
         }
+    };
+
+    const handleCancelEdit = () => {
+        setEditId(null);
+        setFormData({ city: "", locality: "", aptName: "" });
     };
 
     const columns = [
@@ -138,34 +153,20 @@ const ManageLocality = () => {
                         <input type="text" className="form-control" name="aptName" value={formData.aptName} onChange={handleChange} />
                     </div>
                 </div>
-                <button type="button" className="btn btn-primary mt-3" onClick={handleAddApartment}>Add Apartment</button>
+
+                {editId ? (
+                    <>
+                        <button type="button" className="btn btn-success mt-3" onClick={handleUpdateApartment}>Update Apartment</button>
+                        <button type="button" className="btn btn-secondary mt-3 ml-2" onClick={handleCancelEdit}>Cancel</button>
+                    </>
+                ) : (
+                    <button type="button" className="btn btn-primary mt-3" onClick={handleAddApartment}>Add Apartment</button>
+                )}
             </form>
+
             <DataTable title="Apartments" columns={columns} data={apartments} pagination />
-            {editData && (
-                <div className="modal show d-block" tabIndex="-1">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Update Apartment</h5>
-                                <button type="button" className="close" onClick={() => setEditData(null)}>&times;</button>
-                            </div>
-                            <div className="modal-body">
-                                <input type="text" className="form-control" value={editData.aptName} onChange={(e) => setEditData({ ...editData, aptName: e.target.value })} />
-                            </div>
-                            <div className="modal-footer">
-                                <button className="btn btn-primary" onClick={handleUpdateApartment}>Save</button>
-                                <button className="btn btn-secondary" onClick={() => setEditData(null)}>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
+
 export default ManageLocality;
-
-
-
-
-

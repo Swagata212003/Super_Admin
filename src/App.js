@@ -12,6 +12,7 @@ import ManageSalesPipeline from "./View/Pages/SalesPipeline/ManageSalesPipeline.
 import AddCity from "./View/Pages/Cities/AddCity.jsx"; 
 import ManageLocality from "./View/Pages/Locality/ManageLocality.jsx";
 import ManageBanner from "./View/Pages/Banner/ManageBanner.jsx";
+import NewLocality from "./View/Pages/loca/NewLocality.jsx";
 
 
 const App = () => {
@@ -38,6 +39,10 @@ const App = () => {
              
               <Route path="/manage-banner" element={<ManageBanner />} />
               
+              {/*New Locality */}
+              <Route path="/new-locality" element={<NewLocality />} />
+
+
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />

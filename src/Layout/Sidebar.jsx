@@ -241,6 +241,38 @@ function Sidebar({ HideSidebar }) {
   </div>
 </li>
 
+{/* New Locality */}
+<li className="menuline">
+        <div className="menu-head" id="sidemenuhead3">
+    <Link
+      to="#"
+      className="btn btn-header-link"
+      data-toggle="collapse"
+      data-target="#sidemenu3"
+      aria-expanded="true"
+      aria-controls="sidemenu3"
+    >
+      <i className="fa-solid fa-image"></i>
+      <span>New Locality</span>
+    </Link>
+  </div>
+  <div
+    id="sidemenu3"
+    className="collapse"
+    aria-labelledby="sidemenuhead3"
+    data-parent="#sidemenu"
+  >
+    <ul className="Submenu">
+      <li>
+        <NavLink to="/new-locality" onClick={handlClick}>
+          <i className="fa-solid fa-angles-right mr-2"></i>
+          New Locality
+        </NavLink>
+      </li>
+    </ul>
+  </div>
+</li>
+
           </ul>
 
         </div>
